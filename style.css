@@ -1,1 +1,113 @@
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6fb;
+    color:#222;
+}
 
+header{
+    background:#4f46e5;
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+main{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    margin:20px 0;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+button{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:15px 25px;
+    font-size:20px;
+    cursor:pointer;
+    margin:8px;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+.secondary{
+    background:#64748b;
+}
+
+.success{
+    background:#16a34a;
+}
+
+img{
+    width:100%;
+    max-width:420px;
+    border-radius:16px;
+    display:block;
+    margin:auto;
+}
+
+.timer{
+    font-size:60px;
+    font-weight:bold;
+    color:#dc2626;
+    text-align:center;
+    margin:20px;
+}
+
+.word{
+    font-size:42px;
+    font-weight:bold;
+    text-align:center;
+    margin:20px;
+}
+
+.hidden{
+    display:none;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    font-size:20px;
+    border-radius:12px;
+    border:1px solid #ccc;
+    margin-top:10px;
+    box-sizing:border-box;
+}
+
+.stats{
+    font-size:22px;
+    line-height:1.7;
+}
+
+@media(max-width:700px){
+
+h1{
+    font-size:34px;
+}
+
+button{
+    width:100%;
+}
+
+.timer{
+    font-size:48px;
+}
+
+.word{
+    font-size:34px;
+}
+
+}
