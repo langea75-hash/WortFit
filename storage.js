@@ -1,2 +1,1 @@
-const STORAGE_RESULTS="wortfit_results_v2",STORAGE_SETTINGS="wortfit_settings_v2",STORAGE_FAVORITES="wortfit_favorites_v2";function loadResults(){return JSON.parse(localStorage.getItem(STORAGE_RESULTS)||"[]")}function saveResults(r){localStorage.setItem(STORAGE_RESULTS,JSON.stringify(r))}function loadSettings(){return JSON.parse(localStorage.getItem(STORAGE_SETTINGS)||"{}")}function saveSettingsToStorage(s){localStorage.setItem(STORAGE_SETTINGS,JSON.stringify(s))}function loadFavorites(){return JSON.parse(localStorage.getItem(STORAGE_FAVORITES)||"[]")}function saveFavorites(f){localStorage.setItem(STORAGE_FAVORITES,JSON.stringify(f))}
-
+// Platzhalter
