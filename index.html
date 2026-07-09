@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WortFit</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WortFit 2.0</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-<header>
+<header class="app-header">
   <h1>🧠 WortFit</h1>
   <p>Wörter finden. Sätze bilden. Fortschritte sehen.</p>
 </header>
@@ -15,65 +16,39 @@
   <section id="home" class="card">
     <h2>Start</h2>
     <button onclick="startExercise()">▶️ Übung starten</button>
-    <button onclick="showStats()" class="secondary">📊 Fortschritt</button>
     <button onclick="showSettings()" class="secondary">⚙️ Einstellungen</button>
+    <button onclick="showStats()" class="secondary">📊 Fortschritt</button>
+    <button onclick="showCredits()" class="secondary">ℹ️ Bildnachweise</button>
   </section>
-
   <section id="settings" class="card hidden">
     <h2>⚙️ Einstellungen</h2>
-    <label>⏱️ Zeit zum Finden</label>
-    <select id="timeSelect">
-      <option value="5">5 Sekunden</option>
-      <option value="8" selected>8 Sekunden</option>
-      <option value="10">10 Sekunden</option>
-    </select>
-
-    <label>📂 Kategorie</label>
-    <select id="categorySelect">
-      <option value="Alle">Alle</option>
-      <option value="Alltag">Alltag</option>
-      <option value="Essen">Essen</option>
-      <option value="Freizeit">Freizeit</option>
-      <option value="Tiere">Tiere</option>
-      <option value="Natur">Natur</option>
-      <option value="Gefühle">Gefühle</option>
-      <option value="Gesundheit">Gesundheit</option>
-      <option value="Verkehr">Verkehr</option>
-    </select>
-
-    <button onclick="goHome()" class="success">✅ Speichern</button>
+    <label for="timeSelect">⏱️ Zeit zum Finden</label>
+    <select id="timeSelect"><option value="5">5 Sekunden</option><option value="8" selected>8 Sekunden</option><option value="10">10 Sekunden</option></select>
+    <label for="categorySelect">📂 Kategorie</label>
+    <select id="categorySelect"><option value="Alle">Alle</option></select>
+    <label><input type="checkbox" id="autoSpeak" checked /> 🔊 Wort automatisch vorlesen</label>
+    <button onclick="saveSettings()" class="success">✅ Speichern</button>
+    <button onclick="goHome()" class="secondary">🏠 Zurück</button>
   </section>
-
   <section id="exercise" class="card hidden">
     <h2>🎯 Übung</h2>
-    <img id="image" src="" alt="Übungsbild">
+    <div class="image-wrap"><img id="image" src="" alt="Übungsbild" /></div>
     <div id="timer" class="timer">8</div>
-
-    <div id="wordBox" class="hidden">
-      <div id="word" class="word"></div>
-      <button onclick="speakWord()">🔊 Wort langsam hören</button>
-    </div>
-
+    <div id="wordBox" class="hidden"><div id="word" class="word"></div><button onclick="speakWord()">🔊 Wort langsam hören</button></div>
     <div id="sentenceBox" class="hidden">
       <h3>🗣️ Satz bilden</h3>
-      <input id="sentence" placeholder="Schreibe oder sprich deinen Satz...">
+      <input id="sentence" placeholder="Schreibe oder sprich deinen Satz..." />
       <button onclick="startSpeechRecognition()" class="secondary">🎤 Satz sprechen</button>
+      <button onclick="toggleFavorite()" class="secondary">⭐ Favorit</button>
       <button onclick="saveResult()" class="success">✅ Speichern</button>
     </div>
-
     <button onclick="nextCard()">➡️ Nächstes Wort</button>
     <button onclick="goHome()" class="secondary">🏠 Start</button>
   </section>
-
-  <section id="stats" class="card hidden">
-    <h2>📊 Fortschritt</h2>
-    <div id="statsText" class="stats"></div>
-    <button onclick="clearStats()" class="danger">🗑️ Statistik löschen</button>
-    <button onclick="goHome()" class="secondary">🏠 Zurück</button>
-  </section>
+  <section id="stats" class="card hidden"><h2>📊 Fortschritt</h2><div id="statsText" class="stats"></div><button onclick="clearStats()" class="danger">🗑️ Statistik löschen</button><button onclick="goHome()" class="secondary">🏠 Zurück</button></section>
+  <section id="credits" class="card hidden"><h2>ℹ️ Bildnachweise</h2><div id="creditsText" class="credits"></div><button onclick="goHome()" class="secondary">🏠 Zurück</button></section>
 </main>
-<footer>WortFit · Logopädie-App</footer>
-<script src="data.js"></script>
-<script src="script.js"></script>
+<footer>WortFit 2.0 · Logopädie-App</footer>
+<script src="data.js"></script><script src="storage.js"></script><script src="speech.js"></script><script src="stats.js"></script><script src="app.js"></script>
 </body>
 </html>
