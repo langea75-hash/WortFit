@@ -1,6 +1,7 @@
 {
-  "name": "WortFit 2.0",
+  "name": "WortFit 2.1",
   "short_name": "WortFit",
+  "description": "Logopädie-App für Wortfindung und Satzbildung",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
