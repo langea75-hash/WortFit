@@ -1,1 +1,9 @@
-const K={s:"wf50s",r:"wf50r",f:"wf50f"};function rd(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}function wr(k,v){localStorage.setItem(k,JSON.stringify(v))}function loadSettingsData(){return rd(K.s,{})}function saveSettingsData(v){wr(K.s,v)}function loadResults(){return rd(K.r,[])}function saveResults(v){wr(K.r,v)}function loadFavoritesData(){return rd(K.f,[])}function saveFavoritesData(v){wr(K.f,v)}
+const K={s:"wf60_settings",r:"wf60_results",f:"wf60_favorites"};
+function readJson(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}
+function writeJson(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function loadSettingsData(){return readJson(K.s,{})}
+function saveSettingsData(v){writeJson(K.s,v)}
+function loadResults(){return readJson(K.r,[])}
+function saveResults(v){writeJson(K.r,v)}
+function loadFavoritesData(){return readJson(K.f,[])}
+function saveFavoritesData(v){writeJson(K.f,v)}
