@@ -1,15 +1,1 @@
-const STORAGE_KEYS={
-  settings:"wortfit61_settings",
-  results:"wortfit61_results",
-  favorites:"wortfit61_favorites"
-};
-function readJson(key,fallback){
-  try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}
-}
-function writeJson(key,value){localStorage.setItem(key,JSON.stringify(value))}
-function loadSettingsData(){return readJson(STORAGE_KEYS.settings,{})}
-function saveSettingsData(value){writeJson(STORAGE_KEYS.settings,value)}
-function loadResults(){return readJson(STORAGE_KEYS.results,[])}
-function saveResults(value){writeJson(STORAGE_KEYS.results,value)}
-function loadFavoritesData(){return readJson(STORAGE_KEYS.favorites,[])}
-function saveFavoritesData(value){writeJson(STORAGE_KEYS.favorites,value)}
+const K={s:"wf70_settings",r:"wf70_results",f:"wf70_favorites",d:"wf70_difficult"};function rd(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}function wr(k,v){localStorage.setItem(k,JSON.stringify(v))}function loadSettingsData(){return rd(K.s,{})}function saveSettingsData(v){wr(K.s,v)}function loadResults(){return rd(K.r,[])}function saveResults(v){wr(K.r,v)}function loadFavoritesData(){return rd(K.f,[])}function saveFavoritesData(v){wr(K.f,v)}function loadDifficultData(){return rd(K.d,[])}function saveDifficultData(v){wr(K.d,v)}

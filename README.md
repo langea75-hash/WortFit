@@ -1,22 +1,14 @@
-# WortFit 6.1
+# WortFit 7.0
 
-## Neuerungen
-- farbige Kategorien
-- verbesserte Sprachausgabe
-- einstellbare Sprechgeschwindigkeit
-- gemischte Karten ohne direkte Wiederholung
-- bessere Favoritenanzeige
-- überarbeitetes Layout
-- weiterhin keine externen Bilder und kein Bildordner
+Neu:
+- eindeutigere Symbole für Orte und Verben
+- Artikel bei leichter Stufe
+- zwei Beispielsätze
+- langsam und normal vorlesen
+- schwierige Wörter häufiger wiederholen
+- Kategorien-Statistik
+- Favoriten
+- kein Bildordner
+- keine externen Bilder
 
-## Ablauf
-1. Bild ohne Wort
-2. Countdown
-3. Wort und Silben
-4. langsame Sprachausgabe
-5. Beispielsatz nach Klick
-6. eigenen Satz schreiben oder sprechen
-7. Fortschritt speichern
-
-## GitHub
-Alle Dateien in das Hauptverzeichnis des Repositorys hochladen und vorhandene Dateien ersetzen.
+Alle Dateien in GitHub hochladen und vorhandene Dateien ersetzen.
