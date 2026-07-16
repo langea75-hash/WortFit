@@ -1,18 +1,34 @@
-# WortFit mit festen Symbolbildern
+# WortFit 4.0
 
-Diese Version verwendet keine Internetbilder.
+Diese Version wurde komplett neu aufgebaut.
 
-## Vorteil
+## Wichtig
 
-- Sonne zeigt immer ☀️
-- Arzt zeigt immer 👨‍⚕️
-- Laufen zeigt immer 🏃
-- Vogel zeigt immer 🐦
-- keine falschen Suchergebnisse
+- Keine Internetbilder
+- Keine Pixabay-Suche
+- Keine Wikimedia-Suche
+- Jedes Wort hat ein festes Symbol
+- Keine falschen Bilder mehr
 
-## Upload auf GitHub
+## Funktionen
+
+- 100 Wörter
+- 10 Kategorien
+- Countdown
+- Silben
+- Beispielsätze
+- Sprachausgabe
+- Spracheingabe
+- Favoriten
+- Tagesziel
+- Statistik
+- Dunkelmodus
+- läuft direkt im Browser
+
+## GitHub
 
 1. ZIP entpacken.
-2. `index.html`, `style.css`, `data.js` und `app.js` hochladen.
-3. Vorhandene Dateien ersetzen.
-4. Seite mit Strg + F5 neu laden.
+2. Alle Dateien in das Hauptverzeichnis des WortFit-Repositories hochladen.
+3. Vorhandene Dateien gleichen Namens ersetzen.
+4. Die Seite mit Strg + F5 neu laden.
+5. Alte Dateien wie `script.js` dürfen liegen bleiben, weil `index.html` sie nicht lädt.
