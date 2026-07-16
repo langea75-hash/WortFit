@@ -1,5 +1,89 @@
-<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>WortFit 3.0</title><link rel="stylesheet" href="style.css"></head><body><header><h1>🧠 WortFit</h1><p>Wörter finden. Sätze bilden. Fortschritte sehen.</p></header><main>
-<section id="home" class="screen card"><h2>Start</h2><div id="todayProgress" class="progress-box"></div><button onclick="startExercise()">▶️ Übung starten</button><button class="secondary" onclick="showSettings()">⚙️ Einstellungen</button><button class="secondary" onclick="showStats()">📊 Fortschritt</button><button class="secondary" onclick="showFavorites()">⭐ Favoriten</button></section>
-<section id="settings" class="screen card hidden"><h2>⚙️ Einstellungen</h2><label for="timeSelect">⏱️ Bedenkzeit</label><select id="timeSelect"><option value="5">5 Sekunden</option><option value="8" selected>8 Sekunden</option><option value="10">10 Sekunden</option></select><label for="categorySelect">📂 Kategorie</label><select id="categorySelect"><option value="Alle">Alle Kategorien</option></select><label for="dailyGoal">🎯 Tagesziel</label><select id="dailyGoal"><option value="5">5 Wörter</option><option value="10" selected>10 Wörter</option><option value="20">20 Wörter</option><option value="30">30 Wörter</option></select><label class="check-row"><input type="checkbox" id="autoSpeak" checked><span>Wort automatisch langsam vorlesen</span></label><label class="check-row"><input type="checkbox" id="favoritesOnly"><span>Nur Favoriten üben</span></label><button class="success" onclick="saveSettings()">✅ Speichern</button><button class="secondary" onclick="goHome()">🏠 Zurück</button></section>
-<section id="exercise" class="screen card hidden"><div class="exercise-top"><h2>🎯 Übung</h2><span id="categoryBadge" class="badge"></span></div><div id="pictureCard" class="picture-card"><div id="pictureEmoji" class="picture-emoji"></div></div><div id="timer" class="timer">8</div><div id="wordArea" class="hidden"><div id="wordText" class="word"></div><div id="syllablesText" class="syllables"></div><button onclick="speakWord()">🔊 Wort langsam hören</button></div><div id="sentenceArea" class="hidden"><h3>🗣️ Satz bilden</h3><div id="sentenceHint" class="hint"></div><input id="sentenceInput" type="text" placeholder="Schreibe oder sprich deinen Satz …"><button class="secondary" onclick="startSpeechRecognition()">🎤 Satz sprechen</button><button class="secondary" onclick="toggleFavorite()">⭐ Favorit</button><button class="success" onclick="saveResult()">✅ Speichern</button><div id="feedback" class="feedback hidden"></div></div><button onclick="nextCard()">➡️ Nächstes Wort</button><button class="secondary" onclick="goHome()">🏠 Start</button></section>
-<section id="stats" class="screen card hidden"><h2>📊 Fortschritt</h2><div id="statsContent"></div><button class="danger" onclick="clearStats()">🗑️ Statistik löschen</button><button class="secondary" onclick="goHome()">🏠 Zurück</button></section><section id="favorites" class="screen card hidden"><h2>⭐ Favoriten</h2><div id="favoritesContent"></div><button class="secondary" onclick="goHome()">🏠 Zurück</button></section></main><footer>WortFit 3.0 · Logopädie-App im Browser</footer><script src="data.js"></script><script src="app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WortFit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🧠 WortFit</h1>
+    <p>Wörter finden. Sätze bilden. Fortschritte sehen.</p>
+  </header>
+
+  <main>
+    <section id="home" class="screen card">
+      <h2>Start</h2>
+      <button onclick="startExercise()">▶️ Übung starten</button>
+      <button class="secondary" onclick="showStats()">📊 Fortschritt</button>
+      <button class="secondary" onclick="showSettings()">⚙️ Einstellungen</button>
+    </section>
+
+    <section id="settings" class="screen card hidden">
+      <h2>⚙️ Einstellungen</h2>
+
+      <label for="timeSelect">Bedenkzeit</label>
+      <select id="timeSelect">
+        <option value="5">5 Sekunden</option>
+        <option value="8" selected>8 Sekunden</option>
+        <option value="10">10 Sekunden</option>
+      </select>
+
+      <label for="categorySelect">Kategorie</label>
+      <select id="categorySelect">
+        <option value="Alle">Alle Kategorien</option>
+      </select>
+
+      <label class="check-row">
+        <input type="checkbox" id="autoSpeak" checked>
+        <span>Wort automatisch vorlesen</span>
+      </label>
+
+      <button class="success" onclick="saveSettings()">✅ Speichern</button>
+      <button class="secondary" onclick="goHome()">🏠 Zurück</button>
+    </section>
+
+    <section id="exercise" class="screen card hidden">
+      <h2>🎯 Übung</h2>
+      <div id="categoryBadge" class="badge"></div>
+
+      <div class="picture-card">
+        <div id="emojiImage" class="emoji-image"></div>
+      </div>
+
+      <div id="timer" class="timer">8</div>
+
+      <div id="wordArea" class="hidden">
+        <div id="wordText" class="word"></div>
+        <div id="syllablesText" class="syllables"></div>
+        <button onclick="speakWord()">🔊 Wort langsam hören</button>
+      </div>
+
+      <div id="sentenceArea" class="hidden">
+        <h3>🗣️ Satz bilden</h3>
+        <div id="exampleSentence" class="example"></div>
+        <input id="sentenceInput" type="text" placeholder="Schreibe oder sprich deinen Satz ...">
+        <button class="secondary" onclick="startSpeechRecognition()">🎤 Satz sprechen</button>
+        <button class="success" onclick="saveResult()">✅ Speichern</button>
+        <div id="feedback" class="feedback hidden"></div>
+      </div>
+
+      <button onclick="nextCard()">➡️ Nächstes Wort</button>
+      <button class="secondary" onclick="goHome()">🏠 Start</button>
+    </section>
+
+    <section id="stats" class="screen card hidden">
+      <h2>📊 Fortschritt</h2>
+      <div id="statsContent"></div>
+      <button class="danger" onclick="clearStats()">🗑️ Statistik löschen</button>
+      <button class="secondary" onclick="goHome()">🏠 Zurück</button>
+    </section>
+  </main>
+
+  <footer>WortFit · Browser-Version</footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

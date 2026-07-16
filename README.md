@@ -1,23 +1,18 @@
-# WortFit 3.0
+# WortFit mit festen Symbolbildern
 
-Diese Version läuft direkt im Browser und benötigt keine Installation.
+Diese Version verwendet keine Internetbilder.
 
-## Funktionen
-- 100 alltagsnahe Wörter
-- klare Symbolbilder ohne Internet
-- Kategorien
-- 5, 8 oder 10 Sekunden Bedenkzeit
-- langsame deutsche Sprachausgabe
-- Spracheingabe, sofern der Browser sie unterstützt
-- Silbenanzeige
-- Beispielsätze
-- Favoriten
-- Tagesziel
-- Fortschrittsstatistik
-- lokale Speicherung im Browser
+## Vorteil
 
-## GitHub Pages
+- Sonne zeigt immer ☀️
+- Arzt zeigt immer 👨‍⚕️
+- Laufen zeigt immer 🏃
+- Vogel zeigt immer 🐦
+- keine falschen Suchergebnisse
+
+## Upload auf GitHub
+
 1. ZIP entpacken.
-2. index.html, style.css, data.js und app.js hochladen.
+2. `index.html`, `style.css`, `data.js` und `app.js` hochladen.
 3. Vorhandene Dateien ersetzen.
-4. Seite neu laden.
+4. Seite mit Strg + F5 neu laden.
