@@ -1,20 +1,23 @@
 # WortFit 3.0
 
-## Projektstruktur
-- index.html
-- style.css
-- app.js
-- data.js
-- assets/images/
-- assets/audio/
+Diese Version läuft direkt im Browser und benötigt keine Installation.
 
-## Bildkonzept
-Ab Version 3.0 verwendet WortFit eine feste Bildsammlung.
-Jedes Wort verweist auf genau ein passendes Bild im Ordner assets/images.
+## Funktionen
+- 100 alltagsnahe Wörter
+- klare Symbolbilder ohne Internet
+- Kategorien
+- 5, 8 oder 10 Sekunden Bedenkzeit
+- langsame deutsche Sprachausgabe
+- Spracheingabe, sofern der Browser sie unterstützt
+- Silbenanzeige
+- Beispielsätze
+- Favoriten
+- Tagesziel
+- Fortschrittsstatistik
+- lokale Speicherung im Browser
 
-Beispiel:
-Katze -> assets/images/katze.jpg
-Auto -> assets/images/auto.jpg
-Sonne -> assets/images/sonne.jpg
-
-Dadurch gibt es keine falschen Internetbilder mehr.
+## GitHub Pages
+1. ZIP entpacken.
+2. index.html, style.css, data.js und app.js hochladen.
+3. Vorhandene Dateien ersetzen.
+4. Seite neu laden.
