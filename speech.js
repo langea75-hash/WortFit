@@ -1,2 +1,33 @@
-function speakText(value,rate=.55){if(!value||!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(value);u.lang="de-DE";u.rate=rate;u.pitch=1;speechSynthesis.cancel();speechSynthesis.speak(u)}
-function startSpeechRecognition(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Spracheingabe wird von diesem Browser nicht unterstützt.");return}const r=new R();r.lang="de-DE";r.interimResults=false;r.maxAlternatives=1;setFeedback("🎤 Ich höre zu …");r.onresult=e=>{sentenceInput.value=e.results[0][0].transcript;setFeedback("✅ Satz erkannt.")};r.onerror=()=>setFeedback("Spracheingabe hat nicht funktioniert.");r.start()}
+function chooseGermanVoice(){
+  const voices=window.speechSynthesis?.getVoices?.()||[];
+  return voices.find(v=>v.lang==="de-DE")||voices.find(v=>v.lang.startsWith("de"))||null;
+}
+function speakText(value,rate=.55){
+  if(!value||!("speechSynthesis" in window))return;
+  const utterance=new SpeechSynthesisUtterance(value);
+  utterance.lang="de-DE";
+  utterance.rate=rate;
+  utterance.pitch=1;
+  const voice=chooseGermanVoice();
+  if(voice)utterance.voice=voice;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+function startSpeechRecognition(){
+  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Recognition){
+    alert("Spracheingabe wird von diesem Browser nicht unterstützt.");
+    return;
+  }
+  const recognition=new Recognition();
+  recognition.lang="de-DE";
+  recognition.interimResults=false;
+  recognition.maxAlternatives=1;
+  setFeedback("🎤 Ich höre zu …");
+  recognition.onresult=event=>{
+    document.getElementById("sentenceInput").value=event.results[0][0].transcript;
+    setFeedback("✅ Satz erkannt.");
+  };
+  recognition.onerror=()=>setFeedback("Die Spracheingabe hat nicht funktioniert.");
+  recognition.start();
+}

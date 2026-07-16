@@ -1,7 +1,7 @@
 {
-  "name": "WortFit 2.1",
+  "name": "WortFit 6.1",
   "short_name": "WortFit",
-  "description": "Logopädie-App für Wortfindung und Satzbildung",
+  "description": "Aphasie-Übungen für Wortfindung und Satzbildung",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

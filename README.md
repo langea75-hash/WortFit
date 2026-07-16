@@ -1,12 +1,22 @@
-# WortFit 6.0
+# WortFit 6.1
 
-Ablauf:
-1. Nur das Bild erscheint.
-2. Countdown läuft.
-3. Wort und Silben erscheinen.
-4. Wort wird langsam vorgelesen.
-5. Beispiel erscheint erst nach Klick.
-6. Satz schreiben oder sprechen.
-7. Fortschritt speichern.
+## Neuerungen
+- farbige Kategorien
+- verbesserte Sprachausgabe
+- einstellbare Sprechgeschwindigkeit
+- gemischte Karten ohne direkte Wiederholung
+- bessere Favoritenanzeige
+- überarbeitetes Layout
+- weiterhin keine externen Bilder und kein Bildordner
 
-Alle acht Dateien in GitHub hochladen und vorhandene Dateien ersetzen.
+## Ablauf
+1. Bild ohne Wort
+2. Countdown
+3. Wort und Silben
+4. langsame Sprachausgabe
+5. Beispielsatz nach Klick
+6. eigenen Satz schreiben oder sprechen
+7. Fortschritt speichern
+
+## GitHub
+Alle Dateien in das Hauptverzeichnis des Repositorys hochladen und vorhandene Dateien ersetzen.
