@@ -1,25 +1,20 @@
-# WortFit 2.1
+# WortFit 3.0
 
-## Neu in Version 2.1
-- 66 alltagsnahe Wörter
-- 11 Kategorien
-- Tagesziel
-- Fortschrittsbalken
-- Übungsserie
-- Dunkelmodus
-- Favoriten
-- Wikimedia-Commons-Bilder
-- automatische Bildnachweise
-- Spracheingabe und Sprachausgabe
-- lokale Statistik
+## Projektstruktur
+- index.html
+- style.css
+- app.js
+- data.js
+- assets/images/
+- assets/audio/
 
-## Installation
-1. ZIP entpacken.
-2. Alle Dateien in das Hauptverzeichnis des GitHub-Repositories hochladen.
-3. Vorhandene Dateien ersetzen.
-4. `script.js` kann liegen bleiben, wird aber nicht verwendet.
-5. GitHub Pages auf `main` und `/(root)` einstellen.
-6. Nach dem Upload die Seite neu laden.
+## Bildkonzept
+Ab Version 3.0 verwendet WortFit eine feste Bildsammlung.
+Jedes Wort verweist auf genau ein passendes Bild im Ordner assets/images.
 
-## Hinweis
-Die Bildsuche erfolgt über Wikimedia Commons. Die Lizenzbedingungen der jeweiligen Bildseite müssen beachtet werden.
+Beispiel:
+Katze -> assets/images/katze.jpg
+Auto -> assets/images/auto.jpg
+Sonne -> assets/images/sonne.jpg
+
+Dadurch gibt es keine falschen Internetbilder mehr.
