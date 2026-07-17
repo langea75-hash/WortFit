@@ -1,12 +1,10 @@
 {
-  "name": "WortFit 7.0",
-  "short_name": "WortFit",
-  "description": "Aphasie-Übungen für Wortfindung und Satzbildung",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#f4f6fb",
-  "theme_color": "#4f46e5",
-  "lang": "de",
-  "icons": []
+  "name":"WortFit 8.0",
+  "short_name":"WortFit",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#f4f6fb",
+  "theme_color":"#4f46e5",
+  "lang":"de",
+  "icons":[]
 }

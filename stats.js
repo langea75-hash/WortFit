@@ -1,1 +1,6 @@
-function buildStatsHtml(results){if(!results.length)return"<p>Noch keine Übungen gespeichert.</p>";const today=new Date().toLocaleDateString("de-DE");const todayCount=results.filter(x=>x.day===today).length;const sentenceCount=results.filter(x=>x.sentenceDone).length;const uniqueWords=new Set(results.map(x=>x.word)).size;const categories={};results.forEach(x=>categories[x.category]=(categories[x.category]||0)+1);let html=`<div class="stat-grid"><div class="stat-box">🧠 <b>${results.length}</b><br>Übungen</div><div class="stat-box">📅 <b>${todayCount}</b><br>Heute</div><div class="stat-box">🗣️ <b>${sentenceCount}</b><br>Sätze</div><div class="stat-box">🔤 <b>${uniqueWords}</b><br>Wörter</div></div><h3>Kategorien</h3>`;Object.entries(categories).sort().forEach(([k,v])=>html+=`<div class="list-item">${escapeHtml(k)}: <b>${v}</b></div>`);html+="<h3>Letzte Übungen</h3>";results.slice(-10).reverse().forEach(x=>html+=`<div class="list-item"><b>${escapeHtml(x.word)}</b> · ${escapeHtml(x.category)}<br>${escapeHtml(x.date)}<br>${x.sentence?escapeHtml(x.sentence):"Kein Satz"}</div>`);return html}
+function buildStatsHtml(r){
+ if(!r.length)return"<p>Noch keine Übungen gespeichert.</p>";
+ let h=`<div class="stat-box">🧠 Übungen: <b>${r.length}</b></div><h3>Letzte Übungen</h3>`;
+ r.slice(-10).reverse().forEach(x=>h+=`<div class="list-item"><b>${escapeHtml(x.word)}</b><br>${escapeHtml(x.sentence||"Kein Satz")}<br>${escapeHtml(x.evaluationStatus||"")}</div>`);
+ return h;
+}
