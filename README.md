@@ -1,13 +1,10 @@
-# WortFit 8.0
+# WortFit 8.1
 
 Neu:
-- Spracheingabe
-- lokale Satz-Auswertung
-- Zielwort-Erkennung
-- positive Rückmeldung
-- Verbesserungsvorschlag
-- Vorschlag vorlesen
-- keine externe KI und keine API nötig
+- automatische Großschreibung
+- Punkt am Satzende
+- häufige Verbformen werden verbessert
+- Beispiel: die frau kauf schuhe → Die Frau kauft Schuhe.
+- lokale Auswertung ohne API
 
-Hinweis:
-Die Satz-Auswertung ist lokal und regelbasiert. Sie sendet keine Daten ins Internet.
+Alle Dateien in GitHub hochladen und vorhandene Dateien ersetzen.
