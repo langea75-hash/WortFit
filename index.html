@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WortFit 8.1</title>
+<title>WortFit 8.2</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header><h1>🧠 WortFit 8.1</h1><p>Bild sehen. Satz sprechen. Rückmeldung bekommen.</p></header>
+<header><h1>🧠 WortFit 8.2</h1><p>Bild sehen. Satz sprechen. Rückmeldung bekommen.</p></header>
 <main>
 <section id="home" class="screen card">
 <h2>Start</h2>
@@ -24,6 +24,8 @@
 <select id="timeSelect"><option value="5">5 Sekunden</option><option value="8" selected>8 Sekunden</option><option value="10">10 Sekunden</option></select>
 <label>Kategorie</label>
 <select id="categorySelect"><option value="Alle">Alle Kategorien</option></select>
+<label>Schwierigkeit</label>
+<select id="difficultySelect"><option value="leicht">Leicht</option><option value="mittel" selected>Mittel</option><option value="schwer">Schwer</option></select>
 <label>Tagesziel</label>
 <select id="dailyGoal"><option value="5">5 Wörter</option><option value="10" selected>10 Wörter</option><option value="20">20 Wörter</option></select>
 <label><input type="checkbox" id="autoSpeak" checked> Wort automatisch vorlesen</label>
@@ -49,10 +51,13 @@
 <input id="sentenceInput" placeholder="Satz schreiben oder sprechen …">
 <button class="secondary" onclick="startSpeechRecognition()">🎤 Satz sprechen</button>
 <button onclick="evaluateCurrentSentence()">🤖 Satz auswerten</button>
+<button class="secondary" onclick="showSentenceBlocks()">🧩 Satzbausteine</button>
+<div id="sentenceBlocks" class="box hidden"></div>
 
 <div id="aiResult" class="feedback hidden">
 <h3 id="aiStatus"></h3>
 <p id="aiMessage"></p>
+<div id="aiChecks" class="check-list"></div>
 <p id="aiSuggestion"></p>
 <button id="speakSuggestionButton" class="secondary hidden" onclick="speakSuggestion()">🔊 Vorschlag hören</button>
 </div>
@@ -82,7 +87,7 @@
 <button class="secondary" onclick="goHome()">🏠 Zurück</button>
 </section>
 </main>
-<footer>WortFit 8.1 · lokale Satz-Auswertung</footer>
+<footer>WortFit 8.2 · lokale Satz-Auswertung</footer>
 
 <script src="data.js"></script>
 <script src="storage.js"></script>

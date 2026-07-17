@@ -1,10 +1,5 @@
-# WortFit 8.1
+# WortFit 8.2
 
-Neu:
-- automatische Großschreibung
-- Punkt am Satzende
-- häufige Verbformen werden verbessert
-- Beispiel: die frau kauf schuhe → Die Frau kauft Schuhe.
-- lokale Auswertung ohne API
+Neu: Schwierigkeit, mehrere Beispielsätze, Satzbausteine, Zielwort-, Verb-, Satzlängen- und Verständlichkeitsprüfung. Alles lokal ohne API.
 
-Alle Dateien in GitHub hochladen und vorhandene Dateien ersetzen.
+Alle Dateien bei GitHub hochladen und ersetzen.
