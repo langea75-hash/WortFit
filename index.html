@@ -3,97 +3,190 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WortFit 8.2</title>
-<link rel="stylesheet" href="style.css">
+<meta name="theme-color" content="#2563eb">
+<title>WortFit One 1.0</title>
+<style>
+:root {
+  --bg:#eef3f8; --card:#fff; --text:#172033; --muted:#64748b;
+  --primary:#2563eb; --primary2:#1d4ed8; --good:#15803d; --warn:#b45309;
+  --border:#dbe3ee;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+.app{max-width:760px;margin:auto;padding:18px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+h1{font-size:clamp(28px,6vw,42px);margin:0}
+.badge{background:#dbeafe;color:#1e40af;padding:8px 12px;border-radius:999px;font-weight:700}
+.card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:18px;box-shadow:0 8px 24px rgba(15,23,42,.07)}
+.image{width:100%;max-width:420px;margin:0 auto 12px}
+.image svg{width:100%;height:auto;display:block}
+.word{font-size:clamp(34px,9vw,58px);font-weight:800;text-align:center;margin:8px 0 16px}
+.instruction{font-size:20px;font-weight:700;margin:8px 0}
+.wait{display:flex;gap:8px;align-items:center;color:var(--muted);margin-bottom:12px}
+textarea{width:100%;min-height:112px;border:2px solid var(--border);border-radius:16px;padding:14px;font-size:20px;resize:vertical}
+textarea:focus{outline:3px solid #bfdbfe;border-color:var(--primary)}
+.buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+button{border:0;border-radius:15px;padding:14px 12px;font-size:18px;font-weight:700;cursor:pointer}
+.primary{background:var(--primary);color:white}
+.primary:hover{background:var(--primary2)}
+.secondary{background:#e2e8f0;color:#1e293b}
+.good{background:#dcfce7;color:#166534}
+.feedback{margin-top:14px;padding:14px;border-radius:15px;background:#f8fafc;border:1px solid var(--border);font-size:18px;line-height:1.45}
+.example{display:none;margin-top:12px;padding:13px;border-radius:14px;background:#eff6ff;font-size:20px}
+.stats{display:flex;justify-content:space-between;margin-top:14px;color:var(--muted);font-weight:700}
+.small{font-size:14px;color:var(--muted);text-align:center;margin-top:14px}
+@media (max-width:520px){.buttons{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-<header><h1>🧠 WortFit 8.2</h1><p>Bild sehen. Satz sprechen. Rückmeldung bekommen.</p></header>
-<main>
-<section id="home" class="screen card">
-<h2>Start</h2>
-<div id="homeProgress" class="box"></div>
-<button onclick="startExercise()">▶️ Übung starten</button>
-<button class="secondary" onclick="showSettings()">⚙️ Einstellungen</button>
-<button class="secondary" onclick="showStats()">📊 Fortschritt</button>
-<button class="secondary" onclick="showFavorites()">⭐ Favoriten</button>
+<div class="app">
+<header>
+  <h1>WortFit</h1>
+  <div class="badge">One 1.0</div>
+</header>
+
+<section class="card">
+  <div class="image" id="image"></div>
+  <div class="word" id="word"></div>
+
+  <div class="instruction">1. Satz bilden</div>
+  <div class="wait">⏳ Klicken und kurz nachdenken</div>
+
+  <button class="secondary" id="exampleBtn" style="width:100%">💬 Beispiel zeigen</button>
+  <div class="example" id="example"></div>
+
+  <div class="instruction" style="margin-top:18px">2. Satz schreiben oder sprechen</div>
+  <textarea id="sentence" placeholder="Schreibe oder sprich deinen Satz ..."></textarea>
+
+  <div class="buttons">
+    <button class="primary" id="speakBtn">🎤 Sprechen</button>
+    <button class="good" id="checkBtn">✓ Satz prüfen</button>
+    <button class="secondary" id="readBtn">🔊 Vorlesen</button>
+    <button class="secondary" id="nextBtn">Nächstes Wort →</button>
+  </div>
+
+  <div class="feedback" id="feedback">Bilde einen Satz mit dem Wort.</div>
+
+  <div class="stats">
+    <span>Bearbeitet: <b id="done">0</b></span>
+    <span>Gut gelungen: <b id="goodCount">0</b></span>
+  </div>
 </section>
-
-<section id="settings" class="screen card hidden">
-<h2>⚙️ Einstellungen</h2>
-<label>Bedenkzeit</label>
-<select id="timeSelect"><option value="5">5 Sekunden</option><option value="8" selected>8 Sekunden</option><option value="10">10 Sekunden</option></select>
-<label>Kategorie</label>
-<select id="categorySelect"><option value="Alle">Alle Kategorien</option></select>
-<label>Schwierigkeit</label>
-<select id="difficultySelect"><option value="leicht">Leicht</option><option value="mittel" selected>Mittel</option><option value="schwer">Schwer</option></select>
-<label>Tagesziel</label>
-<select id="dailyGoal"><option value="5">5 Wörter</option><option value="10" selected>10 Wörter</option><option value="20">20 Wörter</option></select>
-<label><input type="checkbox" id="autoSpeak" checked> Wort automatisch vorlesen</label>
-<label><input type="checkbox" id="favoritesOnly"> Nur Favoriten üben</label>
-<button class="success" onclick="saveSettings()">✅ Speichern</button>
-<button class="secondary" onclick="goHome()">🏠 Zurück</button>
-</section>
-
-<section id="exercise" class="screen card hidden">
-<h2>🎯 Übung</h2>
-<span id="categoryBadge" class="badge"></span>
-<div class="image-card"><img id="wordImage" alt="Übungsbild"></div>
-<div id="timer" class="timer">8</div>
-
-<div id="wordArea" class="hidden">
-<div id="wordText" class="word"></div>
-<div id="syllablesText" class="syllables"></div>
-<button onclick="speakWord()">🔊 Wort langsam hören</button>
+<div class="small">Funktioniert ohne Anmeldung. Die Auswertung läuft lokal im Browser.</div>
 </div>
 
-<div id="sentenceArea" class="hidden">
-<h3>🗣️ Satz bilden</h3>
-<input id="sentenceInput" placeholder="Satz schreiben oder sprechen …">
-<button class="secondary" onclick="startSpeechRecognition()">🎤 Satz sprechen</button>
-<button onclick="evaluateCurrentSentence()">🤖 Satz auswerten</button>
-<button class="secondary" onclick="showSentenceBlocks()">🧩 Satzbausteine</button>
-<div id="sentenceBlocks" class="box hidden"></div>
+<script>
+const items = [{"word": "Hund", "example": "Der Hund läuft im Garten.", "category": "tiere", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Hund\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🐾</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Hund</text>\n    </svg>"}, {"word": "Katze", "example": "Die Katze sitzt auf dem Sofa.", "category": "tiere", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Katze\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🐾</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Katze</text>\n    </svg>"}, {"word": "Vogel", "example": "Der Vogel fliegt über das Haus.", "category": "tiere", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Vogel\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🐾</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Vogel</text>\n    </svg>"}, {"word": "Pferd", "example": "Das Pferd steht auf der Wiese.", "category": "tiere", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Pferd\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🐾</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Pferd</text>\n    </svg>"}, {"word": "Apfel", "example": "Ich esse einen roten Apfel.", "category": "lebensmittel", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Apfel\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🍎</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Apfel</text>\n    </svg>"}, {"word": "Brot", "example": "Das Brot liegt auf dem Tisch.", "category": "lebensmittel", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Brot\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🍎</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Brot</text>\n    </svg>"}, {"word": "Kaffee", "example": "Ich trinke morgens Kaffee.", "category": "lebensmittel", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kaffee\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🍎</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Kaffee</text>\n    </svg>"}, {"word": "Banane", "example": "Die Banane ist gelb.", "category": "lebensmittel", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Banane\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🍎</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Banane</text>\n    </svg>"}, {"word": "Haus", "example": "Das Haus hat ein rotes Dach.", "category": "orte", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Haus\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🏠</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Haus</text>\n    </svg>"}, {"word": "Krankenhaus", "example": "Das Krankenhaus ist groß.", "category": "orte", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Krankenhaus\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🏠</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Krankenhaus</text>\n    </svg>"}, {"word": "Schule", "example": "Die Kinder gehen zur Schule.", "category": "orte", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Schule\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🏠</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Schule</text>\n    </svg>"}, {"word": "Garten", "example": "Im Garten wachsen Blumen.", "category": "orte", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Garten\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🏠</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Garten</text>\n    </svg>"}, {"word": "Fahrrad", "example": "Ich fahre mit dem Fahrrad.", "category": "fahrzeuge", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Fahrrad\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🚲</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Fahrrad</text>\n    </svg>"}, {"word": "Auto", "example": "Das Auto steht vor dem Haus.", "category": "fahrzeuge", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Auto\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🚲</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Auto</text>\n    </svg>"}, {"word": "Bus", "example": "Der Bus fährt in die Stadt.", "category": "fahrzeuge", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Bus\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🚲</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Bus</text>\n    </svg>"}, {"word": "Zug", "example": "Der Zug kommt am Bahnhof an.", "category": "fahrzeuge", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Zug\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🚲</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Zug</text>\n    </svg>"}, {"word": "Frau", "example": "Die Frau kauft neue Schuhe.", "category": "menschen", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Frau\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🙂</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Frau</text>\n    </svg>"}, {"word": "Mann", "example": "Der Mann liest eine Zeitung.", "category": "menschen", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Mann\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🙂</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Mann</text>\n    </svg>"}, {"word": "Kind", "example": "Das Kind spielt mit dem Ball.", "category": "menschen", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kind\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🙂</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Kind</text>\n    </svg>"}, {"word": "Arzt", "example": "Der Arzt untersucht den Patienten.", "category": "menschen", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Arzt\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">🙂</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Arzt</text>\n    </svg>"}, {"word": "Ball", "example": "Der Ball liegt auf dem Boden.", "category": "alltag", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Ball\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">⭐</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Ball</text>\n    </svg>"}, {"word": "Tasse", "example": "Die Tasse steht auf dem Tisch.", "category": "alltag", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Tasse\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">⭐</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Tasse</text>\n    </svg>"}, {"word": "Schlüssel", "example": "Der Schlüssel liegt neben der Tür.", "category": "alltag", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Schlüssel\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">⭐</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Schlüssel</text>\n    </svg>"}, {"word": "Telefon", "example": "Das Telefon klingelt laut.", "category": "alltag", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Telefon\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">⭐</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Telefon</text>\n    </svg>"}, {"word": "Bett", "example": "Das Bett steht im Schlafzimmer.", "category": "alltag", "svg": "<svg viewBox=\"0 0 320 220\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Bett\">\n      <rect width=\"320\" height=\"220\" rx=\"28\" fill=\"#f4f7fb\"/>\n      <circle cx=\"160\" cy=\"92\" r=\"62\" fill=\"#dbeafe\"/>\n      <text x=\"160\" y=\"115\" text-anchor=\"middle\" font-size=\"64\">⭐</text>\n      <text x=\"160\" y=\"188\" text-anchor=\"middle\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"700\" fill=\"#1f2937\">Bett</text>\n    </svg>"}];
+let index = Number(localStorage.getItem("wortfit_index") || 0) % items.length;
+let done = Number(localStorage.getItem("wortfit_done") || 0);
+let good = Number(localStorage.getItem("wortfit_good") || 0);
 
-<div id="aiResult" class="feedback hidden">
-<h3 id="aiStatus"></h3>
-<p id="aiMessage"></p>
-<div id="aiChecks" class="check-list"></div>
-<p id="aiSuggestion"></p>
-<button id="speakSuggestionButton" class="secondary hidden" onclick="speakSuggestion()">🔊 Vorschlag hören</button>
-</div>
+const el = id => document.getElementById(id);
+const wordEl=el("word"), imageEl=el("image"), exEl=el("example"), sentEl=el("sentence"), fbEl=el("feedback");
 
-<button id="exampleButton" onclick="showExample()">💬 Beispiel anzeigen</button>
-<div id="exampleText" class="example hidden"></div>
+function render() {
+  const item=items[index];
+  wordEl.textContent=item.word;
+  imageEl.innerHTML=item.svg;
+  exEl.textContent="Beispiel: "+item.example;
+  exEl.style.display="none";
+  sentEl.value="";
+  fbEl.textContent="Bilde einen Satz mit dem Wort.";
+  localStorage.setItem("wortfit_index", index);
+  el("done").textContent=done;
+  el("goodCount").textContent=good;
+}
 
-<button id="favoriteButton" class="secondary" onclick="toggleFavorite()">☆ Favorit</button>
-<button class="success" onclick="saveResult()">✅ Speichern</button>
-<div id="feedback" class="feedback hidden"></div>
-</div>
+function normalize(s) {
+  return s.toLocaleLowerCase("de-DE").replace(/[.,!?;:]/g," ").replace(/\s+/g," ").trim();
+}
 
-<button onclick="nextCard()">➡️ Nächstes Wort</button>
-<button class="secondary" onclick="goHome()">🏠 Start</button>
-</section>
+const commonVerbs = [
+"bin","bist","ist","sind","seid","war","waren","habe","hast","hat","haben",
+"gehe","geht","gehen","fahre","fährt","fahren","läuft","laufen","sitzt","sitzen",
+"steht","stehen","liegt","liegen","esse","isst","essen","trinke","trinkt","trinken",
+"spiele","spielt","spielen","kaufe","kauft","kaufen","lese","liest","lesen",
+"fliegt","fliegen","kommt","kommen","klingelt","untersucht","wächst","wachsen"
+];
 
-<section id="stats" class="screen card hidden">
-<h2>📊 Fortschritt</h2>
-<div id="statsContent"></div>
-<button class="danger" onclick="clearStats()">🗑️ Statistik löschen</button>
-<button class="secondary" onclick="goHome()">🏠 Zurück</button>
-</section>
+function polish(s) {
+  s=s.trim().replace(/\s+/g," ");
+  if(!s) return "";
+  s=s.charAt(0).toLocaleUpperCase("de-DE")+s.slice(1);
+  if(!/[.!?]$/.test(s)) s+=".";
+  return s;
+}
 
-<section id="favorites" class="screen card hidden">
-<h2>⭐ Favoriten</h2>
-<div id="favoritesContent"></div>
-<button class="secondary" onclick="goHome()">🏠 Zurück</button>
-</section>
-</main>
-<footer>WortFit 8.2 · lokale Satz-Auswertung</footer>
+function checkSentence() {
+  const raw=sentEl.value.trim();
+  if(!raw) {
+    fbEl.innerHTML="Bitte zuerst einen Satz schreiben oder sprechen.";
+    return;
+  }
+  const text=normalize(raw);
+  const current=normalize(items[index].word);
+  const words=text.split(" ").filter(Boolean);
+  const hasTarget=text.includes(current);
+  const hasVerb=commonVerbs.some(v=>words.includes(v)) || words.some(w=>/(en|t|st)$/.test(w) && w.length>3);
+  const longEnough=words.length>=3;
+  let score=[hasTarget,hasVerb,longEnough].filter(Boolean).length;
 
-<script src="data.js"></script>
-<script src="storage.js"></script>
-<script src="speech.js"></script>
-<script src="evaluator.js"></script>
-<script src="stats.js"></script>
-<script src="app.js"></script>
+  done++;
+  if(score===3) {
+    good++;
+    fbEl.innerHTML="✅ Sehr gut! Der Satz ist verständlich.<br><b>"+polish(raw)+"</b>";
+  } else {
+    let tips=[];
+    if(!hasTarget) tips.push("Benutze das Wort „"+items[index].word+"“.");
+    if(!hasVerb) tips.push("Füge ein Verb hinzu.");
+    if(!longEnough) tips.push("Der Satz darf etwas länger sein.");
+    fbEl.innerHTML="👍 Gute Idee. "+tips.join(" ")+"<br><b>Vorschlag: "+items[index].example+"</b>";
+  }
+  localStorage.setItem("wortfit_done",done);
+  localStorage.setItem("wortfit_good",good);
+  el("done").textContent=done;
+  el("goodCount").textContent=good;
+}
+
+function speakText(text) {
+  if(!("speechSynthesis" in window)) {
+    fbEl.textContent="Vorlesen wird in diesem Browser leider nicht unterstützt.";
+    return;
+  }
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="de-DE";
+  u.rate=0.9;
+  speechSynthesis.speak(u);
+}
+
+el("exampleBtn").onclick=()=> {
+  exEl.style.display=exEl.style.display==="block"?"none":"block";
+};
+el("checkBtn").onclick=checkSentence;
+el("readBtn").onclick=()=>speakText(sentEl.value.trim() || items[index].example);
+el("nextBtn").onclick=()=>{index=(index+1)%items.length; render();};
+
+el("speakBtn").onclick=()=> {
+  const SR=window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) {
+    fbEl.textContent="Spracheingabe wird in diesem Browser nicht unterstützt. Chrome auf Android oder Chromebook funktioniert meist.";
+    return;
+  }
+  const r=new SR();
+  r.lang="de-DE";
+  r.interimResults=false;
+  r.maxAlternatives=1;
+  fbEl.textContent="🎤 Ich höre zu ...";
+  r.onresult=e=>{
+    sentEl.value=e.results[0][0].transcript;
+    fbEl.textContent="Sprache erkannt. Jetzt den Satz prüfen.";
+  };
+  r.onerror=()=>fbEl.textContent="Die Sprache wurde nicht erkannt. Bitte noch einmal versuchen.";
+  r.start();
+};
+
+render();
+</script>
 </body>
 </html>
