@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WortFit One 1.6</title>
+<title>WortFit One 1.6.1</title>
 <style>
 :root{--bg:#eef3f8;--card:#fff;--text:#172033;--muted:#64748b;--primary:#2563eb;--border:#dbe3ee}
 *{box-sizing:border-box}
@@ -92,7 +92,7 @@ textarea{width:100%;min-height:90px;border:2px solid var(--border);border-radius
 </head>
 <body>
 <div class="app">
-<header><h1>WortFit</h1><div class="badge">One 1.6</div></header>
+<header><h1>WortFit</h1><div class="badge">One 1.6.1</div></header>
 
 <section id="home" class="view active">
  <div class="card">
@@ -279,12 +279,63 @@ document.addEventListener("DOMContentLoaded", function(){
   return{ok:false,msg:"💡 Fast richtig. "+tips.join(" ")+(example?"<br><b>Vorschlag: "+example+"</b>":"")};
  }
 
- function speakText(text){
-  if(!text.trim())return;
-  if(!("speechSynthesis" in window))return;
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang="de-DE"; u.rate=.9;
-  speechSynthesis.cancel(); speechSynthesis.speak(u);
+ let speechVoices=[];
+
+ function loadSpeechVoices(){
+  if(!("speechSynthesis" in window))return [];
+  speechVoices=window.speechSynthesis.getVoices()||[];
+  return speechVoices;
+ }
+
+ function getGermanVoice(){
+  const voices=loadSpeechVoices();
+  return voices.find(v=>/^de-DE$/i.test(v.lang))
+      || voices.find(v=>/^de/i.test(v.lang))
+      || voices.find(v=>/german|deutsch/i.test(v.name))
+      || voices[0]
+      || null;
+ }
+
+ function speakText(text,feedbackId){
+  const value=String(text||"").trim();
+  if(!value)return;
+
+  const feedback=feedbackId ? el(feedbackId) : null;
+
+  if(!("speechSynthesis" in window)){
+   if(feedback)feedback.textContent="Sprachausgabe wird von diesem Browser nicht unterstützt.";
+   return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance=new SpeechSynthesisUtterance(value);
+  utterance.lang="de-DE";
+  utterance.rate=.88;
+  utterance.pitch=1;
+  utterance.volume=1;
+
+  const voice=getGermanVoice();
+  if(voice)utterance.voice=voice;
+
+  utterance.onstart=()=>{
+   if(feedback)feedback.textContent="🔊 Das Wort wird vorgelesen.";
+  };
+  utterance.onend=()=>{
+   if(feedback&&feedback.textContent.includes("vorgelesen")){
+    feedback.textContent="Jetzt auswählen oder nachsprechen.";
+   }
+  };
+  utterance.onerror=()=>{
+   if(feedback)feedback.textContent="Die Sprachausgabe konnte nicht gestartet werden.";
+  };
+
+  setTimeout(()=>window.speechSynthesis.speak(utterance),80);
+ }
+
+ if("speechSynthesis" in window){
+  loadSpeechVoices();
+  window.speechSynthesis.onvoiceschanged=loadSpeechVoices;
  }
 
  function itemByWord(word){
@@ -500,13 +551,43 @@ document.addEventListener("DOMContentLoaded", function(){
   localStorage.setItem("wortfit_good",String(good));
   el("done").textContent=done; el("goodCount").textContent=good;
  });
- el("read").addEventListener("click",()=>speakText(el("sentence").value||items[index].example));
+ el("read").addEventListener("click",()=>speakText(el("sentence").value||items[index].example,"feedback"));
  el("clear").addEventListener("click",()=>{el("sentence").value="";el("feedback").textContent="Bilde einen Satz mit dem Wort."});
  el("next").addEventListener("click",()=>{index=(index+1)%items.length;render()});
  el("freeSpeak").addEventListener("click",()=>speechInto(el("freeSentence"),el("freeFeedback")));
  el("freeCheck").addEventListener("click",()=>{el("freeFeedback").innerHTML=evalSentence(el("freeSentence").value).msg});
- el("freeRead").addEventListener("click",()=>speakText(el("freeSentence").value));
+ el("freeRead").addEventListener("click",()=>speakText(el("freeSentence").value,"freeFeedback"));
  el("freeClear").addEventListener("click",()=>{el("freeSentence").value="";el("freeFeedback").textContent="Bilde deinen eigenen Satz."});
+
+ // Minimalpaare
+ el("pairListen").addEventListener("click",()=>speakText(pairTarget,"pairFeedback"));
+ el("pairRepeat").addEventListener("click",()=>speakText(pairTarget,"pairFeedback"));
+ el("pairA").addEventListener("click",()=>choosePair(minimalPairs[pairIndex].a,el("pairA")));
+ el("pairB").addEventListener("click",()=>choosePair(minimalPairs[pairIndex].b,el("pairB")));
+ el("pairRecord").addEventListener("click",startRecording);
+ el("pairStop").addEventListener("click",stopRecording);
+ el("pairPlay").addEventListener("click",()=>{
+  if(recordedUrl)el("pairAudio").play();
+ });
+ el("pairNext").addEventListener("click",()=>{
+  if(mediaRecorder&&mediaRecorder.state==="recording")stopRecording();
+  pairIndex=(pairIndex+1)%minimalPairs.length;
+  localStorage.setItem("wortfit_pair_index",String(pairIndex));
+  renderPair();
+ });
+
+ // Lückenwörter
+ el("gapListen").addEventListener("click",()=>{
+  speakText(gapItems[gapIndex].word,"gapFeedback");
+ });
+ el("gapReset").addEventListener("click",()=>{
+  renderGap();
+ });
+ el("gapNext").addEventListener("click",()=>{
+  gapIndex=(gapIndex+1)%gapItems.length;
+  localStorage.setItem("wortfit_gap_index",String(gapIndex));
+  renderGap();
+ });
 
  render();
 });
