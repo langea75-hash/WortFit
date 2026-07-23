@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef5fb">
+<title>WortFit 2.3</title>
+<style>
+:root{--bg:#eef5fb;--card:#fff;--ink:#14213d;--muted:#64748b;--blue:#0867ef;--green:#c9f8dd;--greenInk:#066b37;--line:#d8e1eb;--soft:#e8f0f8;--red:#fee2e2;--redInk:#991b1b;--fs:1}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);font-size:calc(16px * var(--fs))}
+button,textarea,select{font:inherit}.app{max-width:780px;margin:auto;padding:22px 18px 40px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.brand{font-size:clamp(38px,8vw,58px);font-weight:900;letter-spacing:-2px}.badge{background:#dcecff;color:#0753b7;padding:12px 20px;border-radius:28px;font-size:22px;font-weight:800}.card{background:var(--card);border:1px solid var(--line);border-radius:34px;padding:26px 22px;box-shadow:0 14px 35px rgba(35,55,80,.08)}.menu-grid{display:grid;gap:16px}.menu-btn,.btn{border:0;border-radius:22px;min-height:72px;padding:17px 20px;font-weight:800;font-size:clamp(20px,4.8vw,28px);cursor:pointer}.menu-btn{text-align:left;background:#fff;border:2px solid var(--line);box-shadow:0 8px 20px rgba(35,55,80,.06)}.btn{background:var(--soft);color:var(--ink);width:100%}.btn.primary{background:var(--blue);color:#fff}.btn.good{background:var(--green);color:var(--greenInk)}.btn.warn{background:var(--red);color:var(--redInk)}.btn:disabled{opacity:.42}.back{width:auto;min-height:60px;padding:10px 20px;margin-bottom:18px}.title{font-size:clamp(30px,7vw,44px);font-weight:900;margin:0 0 20px}.sub{font-size:22px;color:var(--muted);font-weight:700;text-align:center;margin:-8px 0 18px}.hidden{display:none!important}.stage{display:grid;gap:16px}.picture{min-height:260px;border-radius:28px;background:#f8fafc;display:grid;place-items:center;font-size:132px;border:1px solid #edf2f7}.word{font-size:clamp(50px,12vw,80px);font-weight:900;text-align:center}.step-label{font-size:25px;font-weight:900}.textarea{width:100%;min-height:145px;border:3px solid var(--line);border-radius:24px;padding:18px;font-size:29px;line-height:1.3}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.feedback{border:2px solid var(--line);border-radius:22px;padding:18px;font-size:23px;line-height:1.4;background:#fff;white-space:pre-line}.example{font-weight:800}.progress{height:14px;background:#e4ebf3;border-radius:20px;overflow:hidden}.progress>div{height:100%;background:var(--blue)}.small{font-size:18px;color:var(--muted)}.status{text-align:center;font-size:21px;font-weight:800;min-height:30px}.pair-box{display:grid;grid-template-columns:1fr 1fr;gap:16px}.pair-word{border:3px solid var(--line);border-radius:26px;padding:22px 12px;text-align:center;background:#fff}.pair-word .emoji{font-size:72px}.pair-word strong{display:block;font-size:34px;margin:8px 0}.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.stat{background:#f8fafc;border:2px solid var(--line);border-radius:22px;padding:18px;text-align:center}.stat b{font-size:34px;display:block}.fav{display:flex;align-items:center;justify-content:space-between;gap:12px;border:2px solid var(--line);border-radius:20px;padding:14px;margin:10px 0}.fav .left{font-size:23px;font-weight:800}.fav button{width:auto;min-height:48px;padding:8px 14px;border-radius:14px}.setting{display:grid;gap:8px;margin-bottom:18px}.setting label{font-size:21px;font-weight:800}.setting select{padding:14px;border:2px solid var(--line);border-radius:16px;background:#fff}.recording{animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.55}}body.dark{--bg:#101827;--card:#182235;--ink:#f4f7fb;--muted:#b9c4d3;--line:#34435a;--soft:#26344a}body.dark .picture,body.dark .pair-word,body.dark .feedback,body.dark .menu-btn,body.dark .stat{background:#1d2a40}
+@media(max-width:560px){.app{padding:16px}.card{padding:22px 18px;border-radius:28px}.row,.pair-box,.stat-grid{grid-template-columns:1fr}.picture{min-height:230px;font-size:112px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand">WortFit</div><div class="badge">2.3</div></header>
+<button id="backBtn" class="btn back hidden">← Menü</button>
+
+<section id="menu" class="card">
+<h1 class="title">Was möchtest du üben?</h1>
+<div class="menu-grid">
+<button class="menu-btn" data-open="words">🖼️ Worttraining</button>
+<button class="menu-btn" data-open="pairs">🔤 Minimalpaare</button>
+<button class="menu-btn" data-open="sentence">✍️ Eigener Satz</button>
+<button class="menu-btn" data-open="favorites">⭐ Favoriten</button>
+<button class="menu-btn" data-open="progress">📊 Fortschritt</button>
+<button class="menu-btn" data-open="settings">⚙️ Einstellungen</button>
+</div>
+</section>
+
+<section id="words" class="card hidden">
+<h1 class="title">🖼️ Worttraining</h1>
+<div class="progress"><div id="wordProgress"></div></div>
+<div class="sub" id="wordCount"></div>
+<div class="stage">
+<button id="showPic" class="btn primary">1. 🖼️ Bild anzeigen</button>
+<div id="picBox" class="picture hidden"></div>
+<button id="hearWord" class="btn primary hidden">2. 🔊 Wort anhören</button>
+<button id="showWord" class="btn hidden">3. 📝 Wort anzeigen</button>
+<div id="wordText" class="word hidden"></div>
+<button id="favWord" class="btn hidden">☆ Als Favorit speichern</button>
+<div id="sentenceArea" class="hidden stage">
+<div class="step-label">4. ✍️ Eigenen Satz schreiben oder sprechen</div>
+<textarea id="wordSentence" class="textarea" placeholder="Mein Satz …"></textarea>
+<div class="row">
+<button id="speechInput" class="btn primary">🎤 Satz sprechen</button>
+<button id="recordBtn" class="btn">⏺️ Aufnehmen</button>
+</div>
+<div class="row">
+<button id="stopRecord" class="btn" disabled>⏹️ Stopp</button>
+<button id="playRecord" class="btn" disabled>▶️ Aufnahme anhören</button>
+</div>
+<div id="recordStatus" class="status"></div>
+<button id="checkSentence" class="btn good">5. ✓ Satz prüfen</button>
+<div id="wordFeedback" class="feedback hidden"></div>
+<button id="acceptSuggestion" class="btn hidden">✓ Vorschlag übernehmen</button>
+<button id="showExample" class="btn hidden">6. 💬 Beispielsatz anzeigen</button>
+<div id="exampleBox" class="feedback example hidden"></div>
+<button id="speakExample" class="btn hidden">🔊 Beispielsatz anhören</button>
+<button id="nextWord" class="btn good hidden">7. Nächstes Wort →</button>
+</div>
+</div>
+</section>
+
+<section id="pairs" class="card hidden">
+<h1 class="title">🔤 Minimalpaare</h1>
+<div class="progress"><div id="pairProgress"></div></div>
+<div class="sub" id="pairCount"></div>
+<div id="pairBox" class="pair-box"></div>
+<button id="pairBoth" class="btn primary">🔁 Beide erneut anhören</button>
+<button id="pairFav" class="btn">☆ Minimalpaar speichern</button>
+<div class="row">
+<button id="pairRecord" class="btn">⏺️ Eigene Aussprache aufnehmen</button>
+<button id="pairStop" class="btn" disabled>⏹️ Stopp</button>
+</div>
+<button id="pairPlay" class="btn" disabled>▶️ Eigene Aufnahme anhören</button>
+<div id="pairStatus" class="status"></div>
+<button id="pairNext" class="btn good">➡️ Nächstes Minimalpaar</button>
+</section>
+
+<section id="sentence" class="card hidden">
+<h1 class="title">✍️ Eigener Satz</h1>
+<textarea id="freeSentence" class="textarea" placeholder="Mein eigener Satz …"></textarea>
+<div class="row">
+<button id="freeSpeak" class="btn primary">🎤 Sprechen</button>
+<button id="freeRead" class="btn">🔊 Vorlesen</button>
+</div>
+<button id="freeCheck" class="btn good">✓ Satz prüfen</button>
+<button id="freeAccept" class="btn hidden">✓ Vorschlag übernehmen</button>
+<button id="freeClear" class="btn">🗑️ Löschen</button>
+<div id="freeFeedback" class="feedback hidden"></div>
+<p class="small">Die Prüfung arbeitet offline. Sie erkennt typische einfache Fehler, ersetzt aber keine vollständige Grammatikprüfung.</p>
+</section>
+
+<section id="favorites" class="card hidden">
+<h1 class="title">⭐ Favoriten</h1>
+<div id="favList"></div>
+</section>
+
+<section id="progress" class="card hidden">
+<h1 class="title">📊 Fortschritt</h1>
+<div class="stat-grid">
+<div class="stat"><b id="stDays">0</b>Trainingstage</div>
+<div class="stat"><b id="stWords">0</b>Wörter</div>
+<div class="stat"><b id="stPairs">0</b>Minimalpaare</div>
+<div class="stat"><b id="stSentences">0</b>Sätze</div>
+<div class="stat"><b id="stFavs">0</b>Favoriten</div>
+<div class="stat"><b id="stBest">0</b>Bestleistung/Tag</div>
+</div>
+<button id="resetProgress" class="btn warn" style="margin-top:18px">🗑️ Fortschritt löschen</button>
+</section>
+
+<section id="settings" class="card hidden">
+<h1 class="title">⚙️ Einstellungen</h1>
+<div class="setting"><label for="fontSize">Schriftgröße</label><select id="fontSize"><option value="0.9">Normal</option><option value="1" selected>Groß</option><option value="1.15">Sehr groß</option></select></div>
+<div class="setting"><label for="theme">Darstellung</label><select id="theme"><option value="light">Hell</option><option value="dark">Dunkel</option></select></div>
+<div class="setting"><label for="autoSpeak">Automatisches Vorlesen</label><select id="autoSpeak"><option value="off">Aus</option><option value="on">Ein</option></select></div>
+<button id="saveSettings" class="btn good">✓ Einstellungen speichern</button>
+</section>
+</div>
+
+<script>
+const words=[
+{word:'Hund',emoji:'🐶',example:'Der Hund läuft durch den Garten.'},
+{word:'Haus',emoji:'🏠',example:'Das Haus hat ein rotes Dach.'},
+{word:'Apfel',emoji:'🍎',example:'Der Apfel liegt auf dem Tisch.'},
+{word:'Vogel',emoji:'🐦',example:'Der Vogel sitzt auf einem Ast.'},
+{word:'Baum',emoji:'🌳',example:'Der Baum steht im Garten.'},
+{word:'Tasse',emoji:'☕',example:'Die Tasse steht auf dem Tisch.'},
+{word:'Schlüssel',emoji:'🔑',example:'Der Schlüssel liegt in meiner Tasche.'},
+{word:'Fahrrad',emoji:'🚲',example:'Ich fahre mit dem Fahrrad.'},
+{word:'Kuchen',emoji:'🍰',example:'Meine Frau isst gerne Kuchen.'},
+{word:'Krankenhaus',emoji:'🏥',example:'Das Krankenhaus ist groß.'}
+];
+const pairs=[
+{a:'Mast',ae:'⛵',b:'Mist',be:'💩'},{a:'Tor',ae:'🥅',b:'Tür',be:'🚪'},
+{a:'Hund',ae:'🐶',b:'Hand',be:'✋'},{a:'Uhr',ae:'🕒',b:'Ohr',be:'👂'},
+{a:'Bier',ae:'🍺',b:'Bär',be:'🐻'},{a:'Wald',ae:'🌲',b:'Welt',be:'🌍'},
+{a:'Hase',ae:'🐇',b:'Hose',be:'👖'},{a:'Rose',ae:'🌹',b:'Riese',be:'🧌'},
+{a:'Haus',ae:'🏠',b:'Maus',be:'🐭'},{a:'Wind',ae:'💨',b:'Wand',be:'🧱'}
+];
+const $=id=>document.getElementById(id);
+const storeKey='wortfit23';
+let state=JSON.parse(localStorage.getItem(storeKey)||'null')||{favorites:[],stats:{words:0,pairs:0,sentences:0,days:{},best:0},settings:{fontSize:'1',theme:'light',autoSpeak:'off'}};
+let wi=0,pi=0,mediaRecorder=null,chunks=[],audioUrl='',lastSuggestion='';
+function save(){localStorage.setItem(storeKey,JSON.stringify(state))}
+function today(){return new Date().toISOString().slice(0,10)}
+function bump(kind){state.stats[kind]=(state.stats[kind]||0)+1;state.stats.days[today()]=(state.stats.days[today()]||0)+1;state.stats.best=Math.max(state.stats.best,state.stats.days[today()]);save()}
+function showSection(id){['menu','words','pairs','sentence','favorites','progress','settings'].forEach(x=>$(x).classList.toggle('hidden',x!==id));$('backBtn').classList.toggle('hidden',id==='menu');if(id==='words')resetWord();if(id==='pairs')renderPair();if(id==='favorites')renderFavorites();if(id==='progress')renderProgress();if(id==='settings')loadSettings()}
+document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>showSection(b.dataset.open));$('backBtn').onclick=()=>showSection('menu');
+function speak(text){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='de-DE';u.rate=.82;speechSynthesis.speak(u)}
+function speechToText(textarea,status){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){status.textContent='Spracherkennung ist hier nicht verfügbar. Schreiben funktioniert weiterhin.';return}const r=new SR();r.lang='de-DE';r.interimResults=false;status.textContent='Ich höre zu …';r.onresult=e=>{textarea.value=(textarea.value+' '+e.results[0][0].transcript).trim();status.textContent='Text übernommen.'};r.onerror=()=>status.textContent='Nicht verstanden. Bitte noch einmal.';r.start()}
+function sentenceReview(text,keyword=''){const s=text.trim();lastSuggestion='';if(!s)return{ok:false,msg:'Bitte zuerst einen Satz eingeben.'};const notes=[];let suggestion=s;
+if(/^mein hund ist gerne isst knochen[.!?]?$/i.test(s)){lastSuggestion='Mein Hund isst gerne Knochen.';return{ok:false,msg:'❌ Zwei Verben stehen direkt hintereinander.\n\nVorschlag:\n'+lastSuggestion}}
+if(/^meine frau ist gerne isst kuchen[.!?]?$/i.test(s)){lastSuggestion='Meine Frau isst gerne Kuchen.';return{ok:false,msg:'❌ Zwei Verben stehen direkt hintereinander.\n\nVorschlag:\n'+lastSuggestion}}
+if(/^meine frau gerne isst kuchen[.!?]?$/i.test(s)){lastSuggestion='Meine Frau isst gerne Kuchen.';return{ok:false,msg:'⚠️ Das Verb sollte an zweiter Stelle stehen.\n\nVorschlag:\n'+lastSuggestion}}
+if(!/^[A-ZÄÖÜ]/.test(s)){notes.push('Der Satz sollte mit einem Großbuchstaben beginnen.');suggestion=s.charAt(0).toUpperCase()+s.slice(1)}
+if(!/[.!?]$/.test(s)){notes.push('Am Ende fehlt ein Satzzeichen.');suggestion=suggestion+'.'}
+if(s.split(/\s+/).length<3)notes.push('Der Satz ist sehr kurz.');
+if(keyword&&!new RegExp('\\b'+keyword.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i').test(s))notes.push('Das Wort „'+keyword+'“ fehlt.');
+if(notes.length){lastSuggestion=suggestion;return{ok:false,msg:'⚠️ Hinweis:\n• '+notes.join('\n• ')+'\n\nVorschlag:\n'+suggestion}}
+return{ok:true,msg:'✅ Sehr gut!\n\nDer Satz ist vollständig aufgebaut. Das Verb und die Wortstellung wirken passend.'}}
+function resetWord(){const x=words[wi];$('wordCount').textContent=`Wort ${wi+1} von ${words.length}`;$('wordProgress').style.width=((wi+1)/words.length*100)+'%';$('picBox').textContent=x.emoji;$('wordText').textContent=x.word;$('wordSentence').value='';$('showPic').classList.remove('hidden');['picBox','hearWord','showWord','wordText','favWord','sentenceArea','wordFeedback','acceptSuggestion','showExample','exampleBox','speakExample','nextWord'].forEach(id=>$(id).classList.add('hidden'));$('recordStatus').textContent='';$('playRecord').disabled=true}
+$('showPic').onclick=()=>{$('showPic').classList.add('hidden');$('picBox').classList.remove('hidden');$('hearWord').classList.remove('hidden')};
+$('hearWord').onclick=()=>{speak(words[wi].word);$('showWord').classList.remove('hidden')};
+$('showWord').onclick=()=>{$('wordText').classList.remove('hidden');$('favWord').classList.remove('hidden');$('sentenceArea').classList.remove('hidden');$('showWord').classList.add('hidden')};
+$('favWord').onclick=()=>toggleFavorite('word',words[wi].word,words[wi].emoji);
+$('speechInput').onclick=()=>speechToText($('wordSentence'),$('recordStatus'));
+$('checkSentence').onclick=()=>{const r=sentenceReview($('wordSentence').value,words[wi].word);$('wordFeedback').textContent=r.msg;$('wordFeedback').classList.remove('hidden');$('acceptSuggestion').classList.toggle('hidden',!lastSuggestion);$('showExample').classList.remove('hidden');bump('sentences')};
+$('acceptSuggestion').onclick=()=>{$('wordSentence').value=lastSuggestion;$('acceptSuggestion').classList.add('hidden')};
+$('showExample').onclick=()=>{$('exampleBox').textContent=words[wi].example;$('exampleBox').classList.remove('hidden');$('speakExample').classList.remove('hidden');$('nextWord').classList.remove('hidden');$('showExample').classList.add('hidden')};
+$('speakExample').onclick=()=>speak(words[wi].example);
+$('nextWord').onclick=()=>{bump('words');wi=(wi+1)%words.length;resetWord()};
+async function startRec(status,playBtn,recordBtn,stopBtn){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){status.textContent='Mikrofon ist in dieser Ansicht nicht verfügbar. Öffne die Datei möglichst in Chrome.';return}try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];mediaRecorder=new MediaRecorder(stream);mediaRecorder.ondataavailable=e=>chunks.push(e.data);mediaRecorder.onstop=()=>{const blob=new Blob(chunks,{type:mediaRecorder.mimeType});if(audioUrl)URL.revokeObjectURL(audioUrl);audioUrl=URL.createObjectURL(blob);playBtn.disabled=false;stream.getTracks().forEach(t=>t.stop());status.textContent='Aufnahme gespeichert.'};mediaRecorder.start();recordBtn.disabled=true;stopBtn.disabled=false;recordBtn.classList.add('recording');status.textContent='Aufnahme läuft …'}catch(e){status.textContent='Mikrofon konnte nicht geöffnet werden. Schreiben und Vorlesen funktionieren weiterhin.'}}
+function stopRec(status,recordBtn,stopBtn){if(mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();recordBtn.disabled=false;stopBtn.disabled=true;recordBtn.classList.remove('recording');}
+$('recordBtn').onclick=()=>startRec($('recordStatus'),$('playRecord'),$('recordBtn'),$('stopRecord'));$('stopRecord').onclick=()=>stopRec($('recordStatus'),$('recordBtn'),$('stopRecord'));$('playRecord').onclick=()=>audioUrl&&new Audio(audioUrl).play();
+function renderPair(){const p=pairs[pi];$('pairCount').textContent=`Paar ${pi+1} von ${pairs.length}`;$('pairProgress').style.width=((pi+1)/pairs.length*100)+'%';$('pairBox').innerHTML=`<div class="pair-word"><div class="emoji">${p.ae}</div><strong>${p.a}</strong><button class="btn primary" onclick="speak('${p.a}')">🔊 ${p.a}</button></div><div class="pair-word"><div class="emoji">${p.be}</div><strong>${p.b}</strong><button class="btn primary" onclick="speak('${p.b}')">🔊 ${p.b}</button></div>`;$('pairStatus').textContent='';$('pairPlay').disabled=true;if(state.settings.autoSpeak==='on')setTimeout(()=>{speak(p.a);setTimeout(()=>speak(p.b),900)},250)}
+$('pairBoth').onclick=()=>{const p=pairs[pi];speak(p.a);setTimeout(()=>speak(p.b),900)};
+$('pairFav').onclick=()=>{const p=pairs[pi];toggleFavorite('pair',p.a+' / '+p.b,p.ae+p.be)};
+$('pairRecord').onclick=()=>startRec($('pairStatus'),$('pairPlay'),$('pairRecord'),$('pairStop'));$('pairStop').onclick=()=>stopRec($('pairStatus'),$('pairRecord'),$('pairStop'));$('pairPlay').onclick=()=>audioUrl&&new Audio(audioUrl).play();
+$('pairNext').onclick=()=>{bump('pairs');pi=(pi+1)%pairs.length;renderPair()};
+$('freeSpeak').onclick=()=>speechToText($('freeSentence'),$('freeFeedback'));$('freeRead').onclick=()=>$('freeSentence').value.trim()&&speak($('freeSentence').value);
+$('freeCheck').onclick=()=>{const r=sentenceReview($('freeSentence').value);$('freeFeedback').textContent=r.msg;$('freeFeedback').classList.remove('hidden');$('freeAccept').classList.toggle('hidden',!lastSuggestion);bump('sentences')};
+$('freeAccept').onclick=()=>{$('freeSentence').value=lastSuggestion;$('freeAccept').classList.add('hidden')};$('freeClear').onclick=()=>{$('freeSentence').value='';$('freeFeedback').classList.add('hidden');$('freeAccept').classList.add('hidden')};
+function favId(type,name){return type+':'+name}
+function toggleFavorite(type,name,emoji){const id=favId(type,name),i=state.favorites.findIndex(x=>x.id===id);if(i>=0)state.favorites.splice(i,1);else state.favorites.push({id,type,name,emoji});save();if(type==='word')$('favWord').textContent=i>=0?'☆ Als Favorit speichern':'★ Favorit gespeichert';if(type==='pair')$('pairFav').textContent=i>=0?'☆ Minimalpaar speichern':'★ Minimalpaar gespeichert'}
+function renderFavorites(){const box=$('favList');if(!state.favorites.length){box.innerHTML='<div class="feedback">Noch keine Favoriten gespeichert.</div>';return}box.innerHTML='';state.favorites.forEach(f=>{const d=document.createElement('div');d.className='fav';d.innerHTML=`<div class="left">${f.emoji||'⭐'} ${f.name}</div><button class="btn warn">Entfernen</button>`;d.querySelector('button').onclick=()=>{state.favorites=state.favorites.filter(x=>x.id!==f.id);save();renderFavorites()};box.appendChild(d)})}
+function renderProgress(){$('stDays').textContent=Object.keys(state.stats.days||{}).length;$('stWords').textContent=state.stats.words||0;$('stPairs').textContent=state.stats.pairs||0;$('stSentences').textContent=state.stats.sentences||0;$('stFavs').textContent=state.favorites.length;$('stBest').textContent=state.stats.best||0}
+$('resetProgress').onclick=()=>{if(confirm('Fortschritt wirklich löschen?')){state.stats={words:0,pairs:0,sentences:0,days:{},best:0};save();renderProgress()}};
+function applySettings(){document.documentElement.style.setProperty('--fs',state.settings.fontSize||'1');document.body.classList.toggle('dark',state.settings.theme==='dark')}
+function loadSettings(){$('fontSize').value=state.settings.fontSize||'1';$('theme').value=state.settings.theme||'light';$('autoSpeak').value=state.settings.autoSpeak||'off'}
+$('saveSettings').onclick=()=>{state.settings={fontSize:$('fontSize').value,theme:$('theme').value,autoSpeak:$('autoSpeak').value};save();applySettings();showSection('menu')};
+applySettings();showSection('menu');
+</script>
+</body>
+</html>
